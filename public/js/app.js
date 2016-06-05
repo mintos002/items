@@ -7,31 +7,31 @@ angular.module("ngItems", ['ngRoute', 'ui.bootstrap', 'ngMessages'])
   .config(function($routeProvider) {
     $routeProvider
       .when("/", {
-        templateUrl: "home.html",
+        templateUrl: "/views/home.html",
         controller: "HomeController"
       })
       .when("/signup", {
         controller: "SignupController",
-        templateUrl: "signup.html"
+        templateUrl: "/views/signup.html"
       })
       .when("/login", {
         controller: "LoginController",
-        templateUrl: "login.html"
+        templateUrl: "/views/login.html"
       })
       .when("/logout", {
         controller: "LogoutController"
       })
       .when("/account", {
         controller  : "AccountController",
-        templateUrl : "account.html"
+        templateUrl : "/views/account.html"
       })
       .when("/profile", {
         controller: "ProfileController",
-        templateUrl: "profile.html"
+        templateUrl: "/views/profile.html"
       })
       .when("/likeditems",{
         controller: "LikedController",
-        templateUrl: "likeditems.html"
+        templateUrl: "/views/likeditems.html"
       })
       .otherwise({
         redirectTo: "/"
