@@ -129,8 +129,13 @@ angular.module("ngItems", ['ngRoute', 'ui.bootstrap', 'ngMessages'])
         callback(false, "No item provided.", null)
         return;
       }
+      var token = window.localStorage.getItem("token");
+      if(token === undefined){
+        callback(false, "You are not logged in.", null);
+        return;
+      }
       // add the owner to item
-      $http.post("/items", item).then(
+      $http.post("/items", {"item": item, "token" : token}).then(
         function(response) {
           console.log("Success addItem");
           callback(true, response.data.message, response.data.data);
@@ -143,7 +148,12 @@ angular.module("ngItems", ['ngRoute', 'ui.bootstrap', 'ngMessages'])
     }
 
     this.saveItemEdit = function(item, callback){
-      $http.post("/items/edit", item).then(
+      var token = window.localStorage.getItem("token");
+      if(token === undefined){
+        callback(false, "You are not logged in.", null);
+        return;
+      }
+      $http.post("/items/edit", {"item": item, "token" : token}).then(
         function(response) {
           callback(true, response.data.message, response.data.data);
         },
@@ -779,7 +789,7 @@ angular.module("ngItems", ['ngRoute', 'ui.bootstrap', 'ngMessages'])
           $scope.editListing = true;
           $scope.existingListing = item;
           
-          Items.scrollTo("edit_item");
+          //Items.scrollTo("edit_item");
         }
 
         // Save item edit
@@ -850,12 +860,12 @@ angular.module("ngItems", ['ngRoute', 'ui.bootstrap', 'ngMessages'])
               // if there is an error show the error
               console.log(message);
               $scope.showAlertError = message;
+              $scope.items = data;
+              $scope.existingListing = {};
             } 
             else{
               // if it success:
-              console.log(data)
               $scope.items = data;
-              console.log(data);
             }
           }); 
         }
@@ -913,12 +923,11 @@ angular.module("ngItems", ['ngRoute', 'ui.bootstrap', 'ngMessages'])
               // if there is an error show the error
               console.log(message);
               $scope.showAlertError = message;
+              $scope.items = data;
             } 
             else{
               // if it success:
-              console.log(data)
               $scope.items = data;
-              console.log(data);
             }
           }); 
         }
